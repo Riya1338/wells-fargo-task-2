@@ -1,86 +1,50 @@
-package com.wellsfargo.counselor.entity;
+package com.example.demo.entities; // Adjust package name to match your project
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Advisor {
 
     @Id
-    @GeneratedValue()
-    private long advisorId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
-    private String phone;
-
-    @Column(nullable = false)
+    @Column(name = "email")
     private String email;
 
-    protected Advisor() {
+    @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL)
+    private List<Client> clients;
 
-    }
+    // No-arg constructor required by JPA
+    public Advisor() {}
 
-    public Advisor(String firstName, String lastName, String address, String phone, String email) {
+    // Constructor initializing all fields
+    public Advisor(String firstName, String lastName, String email, List<Client> clients) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
-        this.phone = phone;
         this.email = email;
+        this.clients = clients;
     }
 
-    public Long getAdvisorId() {
-        return advisorId;
-    }
+    // Getters and Setters (No setter for id)
+    public Long getId() { return id; }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public List<Client> getClients() { return clients; }
+    public void setClients(List<Client> clients) { this.clients = clients; }
 }
